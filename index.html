@@ -63,6 +63,15 @@
       padding: 10px;
       font-size: 16px;
     }
+    .checkboxes {
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+    .checkboxes label {
+      display: block;
+      font-size: 14px;
+      margin: 5px 0;
+    }
     button {
       width: 100%;
       padding: 12px;
@@ -100,6 +109,13 @@
       <label for="monto">Monto de la compra ($)</label>
       <input type="number" id="monto" placeholder="Ej: 10000" />
     </div>
+
+    <div class="checkboxes">
+      <label><input type="checkbox" id="ivaTerminado" checked /> IVA TERMINADO</label>
+      <label><input type="checkbox" id="iva21" /> +21%</label>
+      <label><input type="checkbox" id="iva25" /> +25%</label>
+    </div>
+
     <div class="campo">
       <label for="plan">Plan de Cuotas</label>
       <select id="plan">
@@ -107,6 +123,7 @@
         <option value="6">Cuota Simple 6 (Tasa 10,31%)</option>
       </select>
     </div>
+
     <button onclick="calcular()">Calcular</button>
     <div id="resultado" class="resultado" style="display:none;"></div>
   </div>
@@ -118,13 +135,23 @@
     };
 
     function calcular() {
-      const monto = parseFloat(document.getElementById('monto').value);
+      const montoBase = parseFloat(document.getElementById('monto').value);
       const cuotas = parseInt(document.getElementById('plan').value);
       const tasa = tasas[cuotas];
 
-      if (isNaN(monto) || monto <= 0) {
+      if (isNaN(montoBase) || montoBase <= 0) {
         alert('Por favor, ingrese un monto válido.');
         return;
+      }
+
+      let monto = montoBase;
+
+      if (document.getElementById('iva21').checked) {
+        monto += montoBase * 0.21;
+      }
+
+      if (document.getElementById('iva25').checked) {
+        monto += montoBase * 0.25;
       }
 
       const recargo = monto * tasa;
