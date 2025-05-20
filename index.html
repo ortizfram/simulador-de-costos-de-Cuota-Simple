@@ -93,18 +93,19 @@
 
       .modal-content {
         background-color: #fff;
-        margin: 10% auto;
+        margin: 5% auto;
         padding: 20px;
         border-radius: 8px;
         width: 90%;
         max-width: 500px;
-        position: relative;
-        max-height: 80%;
+        height: 90vh; /* más alto */
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
       }
 
       .modal-scroll {
-        max-height: 250px;
+        flex: 1;
         overflow-y: auto;
         margin-top: 10px;
       }
