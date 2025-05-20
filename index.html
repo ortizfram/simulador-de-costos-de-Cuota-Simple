@@ -250,18 +250,18 @@
         promociones.forEach((promo) => {
           const li = document.createElement("li");
           li.innerHTML = `
-        <p>${promo.descripcion}</p>
-        ${
-          promo.vigencia
-            ? `<small><strong>Vigencia:</strong> ${promo.vigencia}</small><br>`
-            : ""
-        }
-        ${
-          promo.aplicableA
-            ? `<small><strong>Aplicable a:</strong> ${promo.aplicableA}</small>`
-            : ""
-        }
-      `;
+  <p>${promo.descripcion.replace(/\n/g, "<br>")}</p>
+  ${
+    promo.vigencia
+      ? `<small><strong>Vigencia:</strong> ${promo.vigencia}</small><br>`
+      : ""
+  }
+  ${
+    promo.aplicableA
+      ? `<small><strong>Aplicable a:</strong> ${promo.aplicableA}</small>`
+      : ""
+  }
+`;
           ul.appendChild(li);
         });
 
