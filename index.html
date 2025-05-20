@@ -81,28 +81,29 @@
         margin-top: 20px;
       }
       .modal {
+        display: none;
         position: fixed;
-        top: 0;
+        z-index: 999;
         left: 0;
+        top: 0;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 999; /* ensure it's on top */
+        background-color: rgba(0, 0, 0, 0.5);
       }
 
       .modal-content {
-        position: relative;
-        background: white;
-        width: 90%;
-        max-width: 500px;
-        max-height: 80%;
-        overflow-y: auto;
+        background-color: #fff;
+        margin: 5% auto;
         padding: 20px;
         border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        height: 90vh; /* más alto */
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
       }
+
       .modal-scroll {
         flex: 1;
         overflow-y: auto;
@@ -117,7 +118,7 @@
         font-weight: bold;
         color: #333;
         cursor: pointer;
-        z-index: 1000; /* extra assurance it's on top */
+        
       }
     </style>
   </head>
