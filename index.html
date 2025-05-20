@@ -234,8 +234,12 @@
     <script>
       const promociones = [
         {
-          descripcion:
-            "1. 🔹 2-4 personas x $98.000\n\n2. 🔹 5 personas x $108.000\n\n3. 🔹 6 personas x $118.000\n\n4. (con desayuno incluido)",
+          descripcion: [
+            "🔹 2-4 personas x $98.000",
+            "🔹 5 personas x $108.000",
+            "🔹 6 personas x $118.000",
+            "(con desayuno incluido)",
+          ],
           vigencia: "Válido hasta el 30 de mayo",
           aplicableA:
             "{Meses: mayo, junio, julio} {Feriados: 1→4 mayo | 14→16 junio | 20→22 junio}",
@@ -245,23 +249,29 @@
       function openModal() {
         const modal = document.getElementById("popup-promos");
         const ul = document.getElementById("promos-list");
-        ul.innerHTML = ""; // limpiar contenido previo
+        ul.innerHTML = "";
 
         promociones.forEach((promo) => {
           const li = document.createElement("li");
+
+          const descHTML = promo.descripcion
+            .map((line) => `<p>${line}</p>`)
+            .join("");
+
           li.innerHTML = `
-  <p>${promo.descripcion.replace(/\n/g, "<br>")}</p>
-  ${
-    promo.vigencia
-      ? `<small><strong>Vigencia:</strong> ${promo.vigencia}</small><br>`
-      : ""
-  }
-  ${
-    promo.aplicableA
-      ? `<small><strong>Aplicable a:</strong> ${promo.aplicableA}</small>`
-      : ""
-  }
-`;
+      ${descHTML}
+      ${
+        promo.vigencia
+          ? `<small><strong>Vigencia:</strong> ${promo.vigencia}</small><br>`
+          : ""
+      }
+      ${
+        promo.aplicableA
+          ? `<small><strong>Aplicable a:</strong> ${promo.aplicableA}</small>`
+          : ""
+      }
+    `;
+
           ul.appendChild(li);
         });
 
