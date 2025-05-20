@@ -80,9 +80,61 @@
         border-radius: 8px;
         margin-top: 20px;
       }
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        max-height: 80%;
+        overflow: hidden;
+      }
+
+      .modal-scroll {
+        max-height: 250px;
+        overflow-y: auto;
+        margin-top: 10px;
+      }
+
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
+    <!-- Popup Modal -->
+    <div id="popup-promos" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Promociones disponibles</h2>
+        <div class="modal-scroll">
+          <ul id="promos-list">
+            <!-- Aquí se cargan las promos dinámicamente -->
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Simulador -->
     <div class="simulador">
       <h2>Simulador Cuota Simple</h2>
       <div class="vigencia">
@@ -106,7 +158,7 @@
 
       <div class="campo">
         <label for="monto">Monto de la compra ($)</label>
-        <div  class="info-recuadro">
+        <div class="info-recuadro">
           <strong>A TENER EN CUENTA:</strong><br />
           Primero se presupuesta desde
           <a
@@ -117,8 +169,8 @@
             MOTOR </a
           >. Luego pasa el monto final aquí.<br />
           Cuota Simple no es válida para
-          <a href="#otras-promos">otras promociones</a> de transferencia
-          anticipada.
+          <a href="#otras-promos" onclick="openModal()">otras promociones</a>
+          de transferencia anticipada.
         </div>
         <input type="number" id="monto" placeholder="Ej: 10000" />
       </div>
@@ -177,6 +229,56 @@
       `;
         document.getElementById("resultado").style.display = "block";
       }
+    </script>
+
+    <script>
+      const promociones = [
+        {
+          descripcion:
+            "🔹 $98.000 (2 a 4 personas + desayunos) por transferencia anticipada 24hs",
+          vigencia: "Válido hasta el 30 de mayo",
+          aplicableA: "Meses: mayo, junio. Feriados: 1 a 4 mayo",
+        },
+        // aca agregamos mas promociones
+        //{},  
+      ];
+
+      function openModal() {
+        const modal = document.getElementById("popup-promos");
+        const ul = document.getElementById("promos-list");
+        ul.innerHTML = ""; // limpiar contenido previo
+
+        promociones.forEach((promo) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+        <p>${promo.descripcion}</p>
+        ${
+          promo.vigencia
+            ? `<small><strong>Vigencia:</strong> ${promo.vigencia}</small><br>`
+            : ""
+        }
+        ${
+          promo.aplicableA
+            ? `<small><strong>Aplicable a:</strong> ${promo.aplicableA}</small>`
+            : ""
+        }
+      `;
+          ul.appendChild(li);
+        });
+
+        modal.style.display = "block";
+      }
+
+      function closeModal() {
+        document.getElementById("popup-promos").style.display = "none";
+      }
+
+      window.onclick = function (event) {
+        const modal = document.getElementById("popup-promos");
+        if (event.target == modal) {
+          closeModal();
+        }
+      };
     </script>
   </body>
 </html>
