@@ -241,8 +241,10 @@
             "(con desayuno incluido)",
           ],
           vigencia: "Válido hasta el 30 de mayo",
-          aplicableA:
-            "{Meses: mayo, junio, julio} {Feriados: 1→4 mayo | 14→16 junio | 20→22 junio}",
+          aplicableA: [
+            "Meses: Mayo, Junio, Julio",
+            "Feriados: 1→4 mayo | 14→16 junio | 20→22 junio",
+          ],
         },
       ];
 
@@ -258,18 +260,20 @@
             .map((line) => `<p>${line}</p>`)
             .join("");
 
+          const aplicableAHTML = promo.aplicableA
+            ? promo.aplicableA
+                .map((item) => `<p><small>${item}</small></p>`)
+                .join("")
+            : "";
+
           li.innerHTML = `
       ${descHTML}
       ${
         promo.vigencia
-          ? `<small><strong>Vigencia:</strong> ${promo.vigencia}</small><br>`
+          ? `<p><small><strong>Vigencia:</strong> ${promo.vigencia}</small></p>`
           : ""
       }
-      ${
-        promo.aplicableA
-          ? `<small><strong>Aplicable a:</strong> ${promo.aplicableA}</small>`
-          : ""
-      }
+      ${aplicableAHTML}
     `;
 
           ul.appendChild(li);
