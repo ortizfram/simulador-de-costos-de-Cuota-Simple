@@ -63,15 +63,6 @@
       padding: 10px;
       font-size: 16px;
     }
-    .checkboxes {
-      margin-top: -10px;
-      margin-bottom: 20px;
-    }
-    .checkboxes label {
-      display: block;
-      font-size: 14px;
-      margin: 5px 0;
-    }
     button {
       width: 100%;
       padding: 12px;
@@ -110,12 +101,6 @@
       <input type="number" id="monto" placeholder="Ej: 10000" />
     </div>
 
-    <div class="checkboxes">
-      <label><input type="checkbox" id="ivaTerminado" checked /> IVA TERMINADO</label>
-      <label><input type="checkbox" id="iva21" /> +21%</label>
-      <label><input type="checkbox" id="iva25" /> +25%</label>
-    </div>
-
     <div class="campo">
       <label for="plan">Plan de Cuotas</label>
       <select id="plan">
@@ -134,33 +119,34 @@
       6: 0.1031   // Cuota Simple 6
     };
 
+    const adicionales = {
+      3: 0.10,    // 10% adicional
+      6: 0.18     // 18% adicional
+    };
+
     function calcular() {
       const montoBase = parseFloat(document.getElementById('monto').value);
       const cuotas = parseInt(document.getElementById('plan').value);
       const tasa = tasas[cuotas];
+      const adicional = adicionales[cuotas];
 
       if (isNaN(montoBase) || montoBase <= 0) {
         alert('Por favor, ingrese un monto válido.');
         return;
       }
 
-      let monto = montoBase;
+      const recargo = montoBase * tasa;
+      let total = montoBase + recargo;
 
-      if (document.getElementById('iva21').checked) {
-        monto += montoBase * 0.21;
-      }
+      const adicionalAplicado = total * adicional;
+      total += adicionalAplicado;
 
-      if (document.getElementById('iva25').checked) {
-        monto += montoBase * 0.25;
-      }
-
-      const recargo = monto * tasa;
-      const total = monto + recargo;
       const valorCuota = total / cuotas;
 
       document.getElementById('resultado').innerHTML = `
         <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
         <p><strong>Recargo por financiación:</strong> $${recargo.toFixed(2)}</p>
+        <p><strong>Adicional (${(adicional * 100).toFixed(0)}%):</strong> $${adicionalAplicado.toFixed(2)}</p>
         <p><strong>${cuotas} cuotas de:</strong> $${valorCuota.toFixed(2)} c/u</p>
       `;
       document.getElementById('resultado').style.display = 'block';

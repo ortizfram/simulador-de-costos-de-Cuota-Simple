@@ -8,13 +8,17 @@ Se acualiza vigencia si cambia, y se actualiza vigencia en la web bajo el titula
 ### ¿Cómo se liquidan las Ventas al Comercio?
 ---
 
-Cuota Simple 3  |  TNA > 44,55% |  TASA DIRECTA > 5,41%
+Cuota Simple 3  |  TNA > 44,55% |  TASA DIRECTA > 5,41% | (TEA) tasa efectiva anual: ≈ 63,6%
+--
+Iva Terminado (0%) + 10% 
 <!---
 Se acualiza taza
 -->
 ---
 
-Cuota Simple 6  |  TNA > 44,55% |  TASA DIRECTA > 10,31%  
+Cuota Simple 6  |  TNA > 44,55% |  TASA DIRECTA > 10,31%  | (TEA) tasa efectiva anual: 61%
+--
+Iva Terminado (0%) + 18% 
 <!---
 Se acualiza taza
 -->
