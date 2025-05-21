@@ -182,6 +182,9 @@
       <div class="campo">
         <label for="plan">Plan de Cuotas</label>
         <select id="plan">
+          <option value="1">
+            Crédito 1 Cuota (Tasa 10% IVA Terminado) 
+          </option>
           <option value="3">
             Cuota Simple 3 (Tasa 5,41% + IVA) + (1.8%+IVA por crédito) + (Tasa
             Anticipo 1.95% + IVA) — TasaTotal: ≈ 11,08%
@@ -199,13 +202,15 @@
 
     <script>
       const tasas = {
+        1: 0.01, // 10% X Credito 1 cuota
         3: 0.0541, // Cuota Simple 3
         6: 0.1031, // Cuota Simple 6
       };
 
       const adicionales = {
-        3: 0.12, // 10% adicional
-        6: 0.18, // 18% adicional
+        1: 0, // 0% adicional X Credito
+        3: 0.12, // 12% adicional Cuota Simple 3
+        6: 0.18, // 18% adicional Cuota Simple 6
       };
 
       function calcular() {
