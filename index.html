@@ -75,11 +75,17 @@
         cursor: pointer;
       }
       .resultado {
-        background: #eaf7ea;
-        padding: 15px;
-        border-radius: 8px;
-        margin-top: 20px;
-      }
+  background: #eaf7ea;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.monto-grande {
+  font-size: 1.5em;
+  color: #2d572c;
+  font-weight: bold;
+}
       .modal {
         display: none;
         position: fixed;
@@ -214,11 +220,13 @@
     const valorCuota = total / cuotas;
     const adicionalAplicado = montoBase * adicional;
 
+    const formato = (n) => n.toLocaleString("es-AR", { minimumFractionDigits: 2 });
+
     document.getElementById("resultado").innerHTML = `
-      <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
-      <p><strong>Valor por cuota (${cuotas} cuotas):</strong> $${valorCuota.toFixed(2)}</p>
-      <p><strong>Adicional:</strong> (${(adicional * 100).toFixed(2)}%) $${adicionalAplicado.toFixed(2)}</p>
-      <p><strong>Recibís:</strong> $${montoBase.toFixed(2)}</p>
+      <p><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>
+      <p><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(valorCuota)}</span></p>
+      <p><strong>Adicional:</strong> (${(adicional * 100).toFixed(2)}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
+      <p><strong>Recibís:</strong> <span class="monto-grande">$${formato(montoBase)}</span></p>
     `;
     document.getElementById("resultado").style.display = "block";
   }
