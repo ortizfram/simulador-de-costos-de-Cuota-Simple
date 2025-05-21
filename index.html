@@ -199,7 +199,7 @@
       <div id="resultado" class="resultado" style="display: none"></div>
     </div>
 
-   <script>
+<script>
   function calcular() {
     const montoBase = parseFloat(document.getElementById("monto").value);
     const cuotas = parseInt(document.getElementById("plan").value);
@@ -212,10 +212,12 @@
 
     const total = montoBase * (1 + adicional);
     const valorCuota = total / cuotas;
+    const adicionalAplicado = montoBase * adicional;
 
     document.getElementById("resultado").innerHTML = `
       <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
       <p><strong>Valor por cuota (${cuotas} cuotas):</strong> $${valorCuota.toFixed(2)}</p>
+      <p><strong>Adicional:</strong> (${(adicional * 100).toFixed(2)}%) $${adicionalAplicado.toFixed(2)}</p>
       <p><strong>Recibís:</strong> $${montoBase.toFixed(2)}</p>
     `;
     document.getElementById("resultado").style.display = "block";
