@@ -199,52 +199,34 @@
       <div id="resultado" class="resultado" style="display: none"></div>
     </div>
 
-    <script>
-      const tasas = {
-        1: 0, // 0% X Credito 1 cuota tasa
-        3: 0.0541, // Cuota Simple 3
-        6: 0.1031, // Cuota Simple 6
-      };
+   <script>
+  function calcular() {
+    const montoBase = parseFloat(document.getElementById("monto").value);
+    const cuotas = parseInt(document.getElementById("plan").value);
+    const adicional = adicionales[cuotas];
 
-      const adicionales = {
-        1: 0.0218, // 2.18% adicional X Crédito 1 cuota
-        3: 0.12, // 12% adicional Cuota Simple 3
-        6: 0.18, // 18% adicional Cuota Simple 6
-      };
+    if (isNaN(montoBase) || montoBase <= 0) {
+      alert("Por favor, ingrese un monto válido.");
+      return;
+    }
 
-      function calcular() {
-        const montoBase = parseFloat(document.getElementById("monto").value);
-        const cuotas = parseInt(document.getElementById("plan").value);
-        const tasa = tasas[cuotas];
-        const adicional = adicionales[cuotas];
+    const total = montoBase * (1 + adicional);
+    const valorCuota = total / cuotas;
 
-        if (isNaN(montoBase) || montoBase <= 0) {
-          alert("Por favor, ingrese un monto válido.");
-          return;
-        }
+    document.getElementById("resultado").innerHTML = `
+      <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
+      <p><strong>Valor por cuota (${cuotas} cuotas):</strong> $${valorCuota.toFixed(2)}</p>
+      <p><strong>Recibís:</strong> $${montoBase.toFixed(2)}</p>
+    `;
+    document.getElementById("resultado").style.display = "block";
+  }
 
-        const recargo = montoBase * tasa;
-        let total = montoBase + recargo;
-
-        const adicionalAplicado = total * adicional;
-        const recibir = total; // antes de aplicar adicional
-
-        total += adicionalAplicado;
-
-        const valorCuota = total / cuotas;
-
-        document.getElementById("resultado").innerHTML = `
-    <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
-    <p><strong>Recargo por financiación:</strong> $${recargo.toFixed(2)}</p>
-    <p><strong>Adicional (${(adicional * 100).toFixed(
-      0
-    )}%):</strong> $${adicionalAplicado.toFixed(2)}</p>
-    <p><strong>${cuotas} cuotas de:</strong> $${valorCuota.toFixed(2)} c/u</p>
-    <p><strong>Recibirás:</strong> $${recibir.toFixed(2)}</p>
-  `;
-        document.getElementById("resultado").style.display = "block";
-      }
-    </script>
+  const adicionales = {
+    1: 0.0218,  // cambiar cuando vence se recalcula
+    3: 0.1200,  // cambiar cuando vence se recalcula
+    6: 0.1800,  // cambiar cuando vence se recalcula
+  };
+</script>
 
     <script>
       const promociones = [
