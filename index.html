@@ -226,20 +226,21 @@
         let total = montoBase + recargo;
 
         const adicionalAplicado = total * adicional;
+        const recibir = total; // antes de aplicar adicional
+
         total += adicionalAplicado;
 
         const valorCuota = total / cuotas;
 
         document.getElementById("resultado").innerHTML = `
-        <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
-        <p><strong>Recargo por financiación:</strong> $${recargo.toFixed(2)}</p>
-        <p><strong>Adicional (${(adicional * 100).toFixed(
-          0
-        )}%):</strong> $${adicionalAplicado.toFixed(2)}</p>
-        <p><strong>${cuotas} cuotas de:</strong> $${valorCuota.toFixed(
-          2
-        )} c/u</p>
-      `;
+    <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
+    <p><strong>Recargo por financiación:</strong> $${recargo.toFixed(2)}</p>
+    <p><strong>Adicional (${(adicional * 100).toFixed(
+      0
+    )}%):</strong> $${adicionalAplicado.toFixed(2)}</p>
+    <p><strong>Recibirás:</strong> $${recibir.toFixed(2)}</p>
+    <p><strong>${cuotas} cuotas de:</strong> $${valorCuota.toFixed(2)} c/u</p>
+  `;
         document.getElementById("resultado").style.display = "block";
       }
     </script>
