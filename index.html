@@ -216,6 +216,7 @@
     document.getElementById("resultado").innerHTML = `
       <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
       <p><strong>Valor por cuota (${cuotas} cuotas):</strong> $${valorCuota.toFixed(2)}</p>
+<p><strong>Adiciona:</strong> (${(adicional * 100).toFixed(2)}%) $${adicionalAplicado.toFixed(2)}</p>
       <p><strong>Recibís:</strong> $${montoBase.toFixed(2)}</p>
     `;
     document.getElementById("resultado").style.display = "block";
