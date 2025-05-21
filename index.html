@@ -182,9 +182,7 @@
       <div class="campo">
         <label for="plan">Plan de Cuotas</label>
         <select id="plan">
-          <option value="1">
-            Crédito 1 Cuota (Tasa 10% IVA Terminado) 
-          </option>
+          <option value="1">Crédito 1 Cuota (Tasa 10% IVA Terminado)</option>
           <option value="3">
             Cuota Simple 3 (Tasa 5,41% + IVA) + (1.8%+IVA por crédito) + (Tasa
             Anticipo 1.95% + IVA) — TasaTotal: ≈ 11,08%
@@ -287,9 +285,7 @@
             "🍽️ (con desayuno incluido)",
           ],
           vigencia: "📅 HASTA el 31 de Mayo o Hasta agotar stock 120 Noches",
-          aplicableA: [
-            "✅ Meses: TODOS",
-          ],
+          aplicableA: ["✅ Meses: TODOS"],
         },
       ];
 
@@ -302,7 +298,12 @@
           const li = document.createElement("li");
 
           const descHTML = promo.descripcion
-            .map((line) => `<p>${line}</p>`)
+            .map((line, index) => {
+              if (index === 0) {
+                return `<p><strong>${line.toUpperCase()}</strong></p>`;
+              }
+              return `<p>${line}</p>`;
+            })
             .join("");
 
           const aplicableAHTML = promo.aplicableA
