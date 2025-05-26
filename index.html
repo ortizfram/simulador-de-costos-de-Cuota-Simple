@@ -75,17 +75,17 @@
         cursor: pointer;
       }
       .resultado {
-  background: #eaf7ea;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 20px;
-}
+        background: #eaf7ea;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
 
-.monto-grande {
-  font-size: 1.5em;
-  color: #2d572c;
-  font-weight: bold;
-}
+      .monto-grande {
+        font-size: 1.5em;
+        color: #2d572c;
+        font-weight: bold;
+      }
       .modal {
         display: none;
         position: fixed;
@@ -127,6 +127,20 @@
         font-weight: bold;
         color: #333;
         cursor: pointer;
+      }
+      #popup-reserva {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: red;
+        color: black;
+        padding: 20px;
+        border-radius: 10px;
+        font-weight: bold;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       }
     </style>
   </head>
@@ -188,8 +202,10 @@
       <div class="campo">
         <label for="plan">Plan de Cuotas</label>
         <select id="plan">
-          <option value="1">Crédito 1 Cuota (Tasa 1.08% + IVA) + (Tasa
-            Anticipo 1.95% + IVA) — TasaTotal: ≈ 2,18% </option>
+          <option value="1">
+            Crédito 1 Cuota (Tasa 1.08% + IVA) + (Tasa Anticipo 1.95% + IVA) —
+            TasaTotal: ≈ 2,18%
+          </option>
           <option value="3">
             Cuota Simple 3 (Tasa 5,41% + IVA) + (1.8%+IVA por crédito) + (Tasa
             Anticipo 1.95% + IVA) — TasaTotal: ≈ 11,08%
@@ -201,42 +217,77 @@
         </select>
       </div>
 
+      <div class="campo">
+        <label>
+          <input type="checkbox" id="reserva50" onchange="calcular()" />
+          Reserva con el 50%
+        </label>
+        <div id="popup-reserva">
+          Recuerda que el 50% restante se abona a dólar oficial venta hasta 2
+          días antes del check o de contado efectivo al checkin.
+        </div>
+      </div>
+
       <button onclick="calcular()">Calcular</button>
       <div id="resultado" class="resultado" style="display: none"></div>
     </div>
 
-<script>
-  function calcular() {
-    const montoBase = parseFloat(document.getElementById("monto").value);
-    const cuotas = parseInt(document.getElementById("plan").value);
-    const adicional = adicionales[cuotas];
+    <script>
+      function calcular() {
+        const montoInput = parseFloat(document.getElementById("monto").value);
+        const cuotas = parseInt(document.getElementById("plan").value);
+        const reserva50 = document.getElementById("reserva50").checked;
 
-    if (isNaN(montoBase) || montoBase <= 0) {
-      alert("Por favor, ingrese un monto válido.");
-      return;
-    }
+        if (isNaN(montoInput) || montoInput <= 0) {
+          alert("Por favor, ingrese un monto válido.");
+          return;
+        }
 
-    const total = montoBase * (1 + adicional);
-    const valorCuota = total / cuotas;
-    const adicionalAplicado = montoBase * adicional;
+        let montoBase = montoInput;
+        if (reserva50) {
+          montoBase *= 1.35; // Aumenta un 35%
+          mostrarPopupReserva();
+        }
 
-    const formato = (n) => n.toLocaleString("es-AR", { minimumFractionDigits: 2 });
+        const adicional = adicionales[cuotas];
+        const total = montoBase * (1 + adicional);
+        const valorCuota = total / cuotas;
+        const adicionalAplicado = montoBase * adicional;
 
-    document.getElementById("resultado").innerHTML = `
-      <p><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>
-      <p><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(valorCuota)}</span></p>
-      <p><strong>Adicional:</strong> (${(adicional * 100).toFixed(2)}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
-      <p><strong>Recibís:</strong> <span class="monto-grande">$${formato(montoBase)}</span></p>
-    `;
-    document.getElementById("resultado").style.display = "block";
-  }
+        const formato = (n) =>
+          n.toLocaleString("es-AR", { minimumFractionDigits: 2 });
 
-  const adicionales = {
-    1: 0.0218,  // cambiar cuando vence se recalcula
-    3: 0.1200,  // cambiar cuando vence se recalcula
-    6: 0.1800,  // cambiar cuando vence se recalcula
-  };
-</script>
+        document.getElementById("resultado").innerHTML = `
+    <p><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(
+      total
+    )}</span></p>
+    <p><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(
+          valorCuota
+        )}</span></p>
+    <p><strong>Adicional:</strong> (${(adicional * 100).toFixed(
+      2
+    )}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
+    <p><strong>Recibís:</strong> <span class="monto-grande">$${formato(
+      montoInput
+    )}</span></p>
+  `;
+        document.getElementById("resultado").style.display = "block";
+      }
+
+      function mostrarPopupReserva() {
+        const popup = document.getElementById("popup-reserva");
+        popup.style.display = "block";
+        setTimeout(() => {
+          popup.style.display = "none";
+        }, 6000);
+      }
+
+      const adicionales = {
+        1: 0.0218, // cambiar cuando vence se recalcula
+        3: 0.12, // cambiar cuando vence se recalcula
+        6: 0.18, // cambiar cuando vence se recalcula
+      };
+    </script>
 
     <script>
       const promociones = [
