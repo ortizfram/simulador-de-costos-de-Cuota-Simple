@@ -202,6 +202,7 @@
       <div class="campo">
         <label for="plan">Plan de Cuotas</label>
         <select id="plan">
+          <option value="0">Transferencia Anticipada 0%</option>
           <option value="1">
             Crédito 1 Cuota (Tasa 1.08% + IVA) + (Tasa Anticipo 1.95% + IVA) —
             TasaTotal: ≈ 2,18%
@@ -283,6 +284,7 @@
       }
 
       const adicionales = {
+        0: 0, // cambiar cuando vence se recalcula
         1: 0.0218, // cambiar cuando vence se recalcula
         3: 0.12, // cambiar cuando vence se recalcula
         6: 0.18, // cambiar cuando vence se recalcula
