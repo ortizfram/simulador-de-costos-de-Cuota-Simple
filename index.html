@@ -225,7 +225,7 @@
       <div class="campo">
         <label>
           <input type="checkbox" id="reserva50" onchange="calcular()" />
-          Reserva con el 50%
+          Reserva con el 50% (adiciona el 35% al monto)
         </label>
       </div>
 
@@ -250,6 +250,8 @@
 
         let montoBase = montoInput;
         if (reserva50) {
+          // Si se selecciona reserva del 50%, se aplica un adicional del 35%
+          montoBase *= 1.35; // Aumenta el monto base en un 35%
           mostrarPopupReserva();
         }
 
@@ -287,7 +289,7 @@
       }
 
       const adicionales = {
-        0: 0.35, // cambiar cuando vence se recalcula
+        0: 0, // cambiar cuando vence se recalcula
         1: 0.0218, // cambiar cuando vence se recalcula
         3: 0.12, // cambiar cuando vence se recalcula
         6: 0.18, // cambiar cuando vence se recalcula
