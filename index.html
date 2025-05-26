@@ -206,18 +206,18 @@
       <div class="campo">
         <label for="plan">Plan de Cuotas</label>
         <select id="plan">
-          <option value="0" onchange="calcular()">
+          <option value="0"">
             Transferencia Anticipada 0% | Reserva con 50% (+35%)
           </option>
-          <option value="1" onchange="calcular()">
+          <option value="1"">
             Crédito 1 Cuota (Tasa 1.08% + IVA) + (Tasa Anticipo 1.95% + IVA) —
             TasaTotal: ≈ 2,18%
           </option>
-          <option value="3" onchange="calcular()">
+          <option value="3"">
             Cuota Simple 3 (Tasa 5,41% + IVA) + (1.8%+IVA por crédito) + (Tasa
             Anticipo 1.95% + IVA) — TasaTotal: ≈ 11,08%
           </option>
-          <option value="6" onchange="calcular()">
+          <option value="6"">
             Cuota Simple 6 (Tasa 10,31% + IVA) + (1.8%+IVA por crédito) + (Tasa
             Anticipo 1.95% + IVA) — TasaTotal: ≈ 17,02%
           </option>
@@ -317,9 +317,10 @@
         6: 0.18, // cambiar cuando vence se recalcula
       };
 
-      document
-        .getElementById("plan")
-        .addEventListener("change", toggleReservaBox);
+      document.getElementById("plan").addEventListener("change", () => {
+        toggleReservaBox();
+        calcular(); // ejecuta el cálculo automáticamente al cambiar de plan
+      });
 
       function toggleReservaBox() {
         const plan = document.getElementById("plan").value;
