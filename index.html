@@ -240,6 +240,7 @@
     <script>
       function calcular() {
         const montoInput = parseFloat(document.getElementById("monto").value);
+        const metodo = document.getElementById("metodo").value;
         const cuotas = parseInt(document.getElementById("plan").value);
         const reserva50 = document.getElementById("reserva50").checked;
 
@@ -250,33 +251,51 @@
 
         let montoBase = montoInput;
         if (reserva50) {
-          // Si se selecciona reserva del 50%, se aplica un adicional del 35%
-          montoBase *= 1.35; // Aumenta el monto base en un 35%
+          montoBase *= 1.35;
           mostrarPopupReserva();
         }
 
-        const adicional = adicionales[cuotas];
-        const total = montoBase * (1 + adicional);
-        const valorCuota = total / cuotas;
-        const adicionalAplicado = montoBase * adicional;
+        let total = montoBase;
+        let valorCuota = 0;
+        let adicionalAplicado = 0;
+        let adicional = 0;
+        let recibis = montoInput;
+
+        if (metodo === "cuotas" && cuotas > 0) {
+          adicional = adicionales[cuotas];
+          total = montoBase * (1 + adicional);
+          valorCuota = total / cuotas;
+          adicionalAplicado = montoBase * adicional;
+          recibis = montoInput;
+        } else {
+          // Transferencia anticipada o cuota plan "0"
+          total = montoBase;
+          recibis = total;
+        }
 
         const formato = (n) =>
           n.toLocaleString("es-AR", { minimumFractionDigits: 2 });
 
-        document.getElementById("resultado").innerHTML = `
-    <p><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(
-      total
-    )}</span></p>
-    <p><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(
-          valorCuota
-        )}</span></p>
-    <p><strong>Adicional:</strong> (${(adicional * 100).toFixed(
-      2
-    )}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
-    <p><strong>Recibís:</strong> <span class="monto-grande">$${formato(
-      montoInput
-    )}</span></p>
-  `;
+        let html = `<p><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(
+          total
+        )}</span></p>`;
+
+        if (metodo === "cuotas" && cuotas > 0) {
+          html += `
+      <p><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(
+            valorCuota
+          )}</span></p>
+      <p><strong>Adicional:</strong> (${(adicional * 100).toFixed(
+        2
+      )}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
+    `;
+        }
+
+        html += `<p><strong>Recibís:</strong> <span class="monto-grande">$${formato(
+          recibis
+        )}</span></p>`;
+
+        document.getElementById("resultado").innerHTML = html;
         document.getElementById("resultado").style.display = "block";
       }
 
