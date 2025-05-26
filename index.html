@@ -142,6 +142,10 @@
         font-weight: bold;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
       }
+      label input[type="checkbox"] {
+        margin-right: 8px;
+        vertical-align: middle;
+      }
     </style>
   </head>
   <body>
@@ -223,14 +227,14 @@
           <input type="checkbox" id="reserva50" onchange="calcular()" />
           Reserva con el 50%
         </label>
-        <div id="popup-reserva">
-          Recuerda que el 50% restante se abona a dólar oficial venta hasta 2
-          días antes del check o de contado efectivo al checkin.
-        </div>
       </div>
 
       <button onclick="calcular()">Calcular</button>
       <div id="resultado" class="resultado" style="display: none"></div>
+      <div id="popup-reserva">
+        Recuerda que el 50% restante se abona a dólar oficial venta hasta 2 días
+        antes del check o de contado efectivo al checkin.
+      </div>
     </div>
 
     <script>
