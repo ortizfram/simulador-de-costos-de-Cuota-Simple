@@ -206,28 +206,30 @@
       <div class="campo">
         <label for="plan">Plan de Cuotas</label>
         <select id="plan">
-          <option value="0">Transferencia Anticipada 0%</option>
-          <option value="1">
+          <option value="0" onchange="calcular()">
+            Transferencia Anticipada 0% | Reserva con 50% (+35%)
+          </option>
+          <option value="1" onchange="calcular()">
             Crédito 1 Cuota (Tasa 1.08% + IVA) + (Tasa Anticipo 1.95% + IVA) —
             TasaTotal: ≈ 2,18%
           </option>
-          <option value="3">
+          <option value="3" onchange="calcular()">
             Cuota Simple 3 (Tasa 5,41% + IVA) + (1.8%+IVA por crédito) + (Tasa
             Anticipo 1.95% + IVA) — TasaTotal: ≈ 11,08%
           </option>
-          <option value="6">
+          <option value="6" onchange="calcular()">
             Cuota Simple 6 (Tasa 10,31% + IVA) + (1.8%+IVA por crédito) + (Tasa
             Anticipo 1.95% + IVA) — TasaTotal: ≈ 17,02%
           </option>
         </select>
       </div>
 
-      <div class="campo">
+      <div class="campo" id="reserva-box" style="display: none">
         <label>
           <input type="checkbox" id="reserva50" onchange="calcular()" />
           Reserva con el 50% (adiciona el 35% al monto)
         </label>
-        <p><solo href="#">solo usar si elegimos Transferencia Anticipada 0%</a></p>
+        <p><small>Solo usar si elegimos Transferencia Anticipada 0%</small></p>
       </div>
 
       <button onclick="calcular()">Calcular</button>
@@ -240,66 +242,65 @@
 
     <script>
       function calcular() {
-  const montoInput = parseFloat(document.getElementById("monto").value);
-  const cuotas = parseInt(document.getElementById("plan").value);
-  const metodo = cuotas === 0 ? "transferencia" : "cuotas";
-  const reserva50 = document.getElementById("reserva50").checked;
+        const montoInput = parseFloat(document.getElementById("monto").value);
+        const cuotas = parseInt(document.getElementById("plan").value);
+        const metodo = cuotas === 0 ? "transferencia" : "cuotas";
+        const reserva50 = document.getElementById("reserva50").checked;
 
-  if (isNaN(montoInput) || montoInput <= 0) {
-    alert("Por favor, ingrese un monto válido.");
-    return;
-  }
+        if (isNaN(montoInput) || montoInput <= 0) {
+          alert("Por favor, ingrese un monto válido.");
+          return;
+        }
 
-  let montoBase = montoInput;
-  if (reserva50) {
-    montoBase *= 1.35;
-    mostrarPopupReserva();
-  }
+        let montoBase = montoInput;
+        if (reserva50) {
+          montoBase *= 1.35;
+          mostrarPopupReserva();
+        }
 
-  let total = montoBase;
-  let valorCuota = 0;
-  let adicionalAplicado = 0;
-  let adicional = 0;
-  let recibis = montoInput;
+        let total = montoBase;
+        let valorCuota = 0;
+        let adicionalAplicado = 0;
+        let adicional = 0;
+        let recibis = montoInput;
 
-  if (metodo === "cuotas" && cuotas > 0) {
-    adicional = adicionales[cuotas];
-    total = montoBase * (1 + adicional);
-    valorCuota = total / cuotas;
-    adicionalAplicado = montoBase * adicional;
-    recibis = montoInput;
-  } else {
-    // Transferencia anticipada o cuota plan "0"
-    total = montoBase;
-    recibis = total;
-  }
+        if (metodo === "cuotas" && cuotas > 0) {
+          adicional = adicionales[cuotas];
+          total = montoBase * (1 + adicional);
+          valorCuota = total / cuotas;
+          adicionalAplicado = montoBase * adicional;
+          recibis = montoInput;
+        } else {
+          // Transferencia anticipada o cuota plan "0"
+          total = montoBase;
+          recibis = total;
+        }
 
-  const formato = (n) =>
-    n.toLocaleString("es-AR", { minimumFractionDigits: 2 });
+        const formato = (n) =>
+          n.toLocaleString("es-AR", { minimumFractionDigits: 2 });
 
-  let html = `<p><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(
-    total
-  )}</span></p>`;
+        let html = `<p><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(
+          total
+        )}</span></p>`;
 
-  if (metodo === "cuotas" && cuotas > 0) {
-    html += `
+        if (metodo === "cuotas" && cuotas > 0) {
+          html += `
     <p><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(
-      valorCuota
-    )}</span></p>
+            valorCuota
+          )}</span></p>
     <p><strong>Adicional:</strong> (${(adicional * 100).toFixed(
       2
     )}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
   `;
-  }
+        }
 
-  html += `<p><strong>Recibís:</strong> <span class="monto-grande">$${formato(
-    recibis
-  )}</span></p>`;
+        html += `<p><strong>Recibís:</strong> <span class="monto-grande">$${formato(
+          recibis
+        )}</span></p>`;
 
-  document.getElementById("resultado").innerHTML = html;
-  document.getElementById("resultado").style.display = "block";
-}
-
+        document.getElementById("resultado").innerHTML = html;
+        document.getElementById("resultado").style.display = "block";
+      }
 
       function mostrarPopupReserva() {
         const popup = document.getElementById("popup-reserva");
@@ -315,6 +316,22 @@
         3: 0.12, // cambiar cuando vence se recalcula
         6: 0.18, // cambiar cuando vence se recalcula
       };
+
+      document
+        .getElementById("plan")
+        .addEventListener("change", toggleReservaBox);
+
+      function toggleReservaBox() {
+        const plan = document.getElementById("plan").value;
+        const reservaBox = document.getElementById("reserva-box");
+
+        if (plan === "0") {
+          reservaBox.style.display = "block";
+        } else {
+          reservaBox.style.display = "none";
+          document.getElementById("reserva50").checked = false; // Desactiva el checkbox si no corresponde
+        }
+      }
     </script>
 
     <script>
