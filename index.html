@@ -97,6 +97,17 @@
         background-color: rgba(0, 0, 0, 0.5);
         overflow-y: auto; /* importante: permite scroll si el contenido es más grande */
       }
+      .texto-calculo {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+}
+.monto-grande {
+  font-weight: bold;
+  font-size: 18px;
+}
+
 
       .modal-content {
         background-color: #fff;
@@ -278,39 +289,26 @@
     recibis = total;
   }
 
-  let html = `<p><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(
-    total
-  )}</span></p>`;
+ let html = `<p class="texto-calculo"><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>`;
 
-  if (metodo === "cuotas" && cuotas > 0) {
-    html += `
-      <p><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(
-        valorCuota
-      )}</span></p>
-      <p><strong>Adicional:</strong> (${(adicional * 100).toFixed(
-        2
-      )}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
-    `;
-  }
+if (metodo === "cuotas" && cuotas > 0) {
+  html += `
+    <p class="texto-calculo"><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(valorCuota)}</span></p>
+    <p class="texto-calculo"><strong>Adicional:</strong> (${(adicional * 100).toFixed(2)}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
+  `;
+}
 
-  html += `<p><strong>Recibís:</strong> <span class="monto-grande">$${formato(
-    recibis
-  )}</span></p>`;
+html += `<p class="texto-calculo"><strong>Recibís:</strong> <span class="monto-grande">$${formato(recibis)}</span></p>`;
 
-  if (reserva50) {
-    const mitad = montoBase / 2;
-    html += `
-      <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-top: 10px;">
-        
-        <p><strong>Reserva con:</strong> <span class="monto-grande">$${formato(
-          mitad
-        )}</span></p>
-        <p><strong>Saldo:</strong> <span class="monto-grande">$${formato(
-          mitad
-        )}</span></p>
-      </div>
-    `;
-  }
+if (reserva50) {
+  const mitad = montoBase / 2;
+  html += `
+    <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-top: 10px;">
+      <p class="texto-calculo"><strong>Reserva con:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
+      <p class="texto-calculo"><strong>Saldo:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
+    </div>
+  `;
+}
 
   document.getElementById("resultado").innerHTML = html;
   document.getElementById("resultado").style.display = "block";
