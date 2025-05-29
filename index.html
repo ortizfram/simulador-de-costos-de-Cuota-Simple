@@ -235,8 +235,7 @@
       <button onclick="calcular()">Calcular</button>
       <div id="resultado" class="resultado" style="display: none"></div>
       <div id="popup-reserva">
-        Recuerda que el 50% restante se abona a dólar oficial venta hasta 2 días
-        antes del check o de contado efectivo al checkin.
+        Recuerda que el 50% restante se abona a dólar oficial venta hasta 2 días antes mediante transferencia o de contado efectivo al checkin.
       </div>
     </div>
 
@@ -255,6 +254,15 @@
         let montoBase = montoInput;
         if (reserva50) {
           montoBase *= 1.35;
+          const mitad = montoInput / 2;
+  html += `
+    <p><strong>Reserva con:</strong> <span class="monto-grande">$${formato(
+      mitad
+    )}</span></p>
+    <p><strong>Saldo:</strong> <span class="monto-grande">$${formato(
+      mitad
+    )}</span></p>
+  `;
           mostrarPopupReserva();
         }
 
@@ -295,8 +303,8 @@
         }
 
         html += `<p><strong>Recibís:</strong> <span class="monto-grande">$${formato(
-          recibis
-        )}</span></p>`;
+  recibis
+)}</span></p>`;
 
         document.getElementById("resultado").innerHTML = html;
         document.getElementById("resultado").style.display = "block";
