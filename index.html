@@ -297,8 +297,9 @@
     total = montoBase;
     recibis = total;
   }
+let html = `<div class="resultado-box">`;
 
- let html = `<p class="texto-calculo"><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>`;
+html += `<p class="texto-calculo"><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>`;
 
 if (metodo === "cuotas" && cuotas > 0) {
   html += `
@@ -312,12 +313,12 @@ html += `<p class="texto-calculo"><strong>Recibís:</strong> <span class="monto-
 if (reserva50) {
   const mitad = montoBase / 2;
   html += `
-    <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-top: 10px;">
-      <p class="texto-calculo"><strong>Reserva con:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
-      <p class="texto-calculo"><strong>Saldo:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
-    </div>
+    <p class="texto-calculo"><strong>Reserva con:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
+    <p class="texto-calculo"><strong>Saldo:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
   `;
 }
+
+html += `</div>`;
 
   document.getElementById("resultado").innerHTML = html;
   document.getElementById("resultado").style.display = "block";
