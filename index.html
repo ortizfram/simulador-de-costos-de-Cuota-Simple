@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <title>Simulador Cuota Simple</title>
-      <link rel="icon" href="images/calculadora.png" type="image/png" />
+    <link rel="icon" href="assets\favicon.png" type="image/png" />
+
 
     <style>
       body {
@@ -279,7 +280,6 @@
   let montoBase = montoInput;
   if (reserva50) {
     montoBase *= 1.35;
-    mostrarPopupReserva(); // Se muestra de forma permanente si se activa el checkbox
   }
 
   let total = montoBase;
@@ -300,6 +300,13 @@
   }
 
   let html = `<div class="resultado-box">`;
+
+  // Agregar el texto sobre el total en rojo
+  if (reserva50) {
+    html += `<p class="texto-calculo" style="color: red; font-weight: bold;">
+               Recuerda que el 50% restante se abona a dólar oficial venta hasta 2 días antes mediante transferencia o de contado efectivo al checkin.
+             </p>`;
+  }
 
   html += `<p class="texto-calculo"><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>`;
 
@@ -367,6 +374,7 @@ function mostrarPopupReserva() {
           descripcion: [
             "👪 WINTER SALE - FAMILIAS - GRUPOS - TODO EL AÑO",
             "🔹 2 adultos x $98.000 (2 niños sin cargo -12años)",
+            "🔹 3 adultos x $110.000 (sin siños)",
             "🔹 4 adultos x $120.000 (sin siños)",
             "🔹 5 personas x $130.000 (sin siños)",
             "🔹 6 personas x $140.000 (sin siños)",
