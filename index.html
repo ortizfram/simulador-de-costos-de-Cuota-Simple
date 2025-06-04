@@ -260,7 +260,7 @@
     </div>
 
     <script>
-      function calcular() {
+  function calcular() {
   const montoInput = parseFloat(document.getElementById("monto").value);
   const cuotas = parseInt(document.getElementById("plan").value);
   const metodo = cuotas === 0 ? "transferencia" : "cuotas";
@@ -277,7 +277,7 @@
   let montoBase = montoInput;
   if (reserva50) {
     montoBase *= 1.35;
-    mostrarPopupReserva();
+    mostrarPopupReserva(); // Se muestra de forma permanente si se activa el checkbox
   }
 
   let total = montoBase;
@@ -293,45 +293,42 @@
     adicionalAplicado = montoBase * adicional;
     recibis = montoInput;
   } else {
-    // Transferencia anticipada o cuota plan "0"
     total = montoBase;
     recibis = total;
   }
-let html = `<div class="resultado-box">`;
 
-html += `<p class="texto-calculo"><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>`;
+  let html = `<div class="resultado-box">`;
 
-if (metodo === "cuotas" && cuotas > 0) {
-  html += `
-    <p class="texto-calculo"><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(valorCuota)}</span></p>
-    <p class="texto-calculo"><strong>Adicional:</strong> (${(adicional * 100).toFixed(2)}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
-  `;
-}
+  html += `<p class="texto-calculo"><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>`;
 
-html += `<p class="texto-calculo"><strong>Recibís:</strong> <span class="monto-grande">$${formato(recibis)}</span></p>`;
+  if (metodo === "cuotas" && cuotas > 0) {
+    html += `  
+      <p class="texto-calculo"><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(valorCuota)}</span></p>
+      <p class="texto-calculo"><strong>Adicional:</strong> (${(adicional * 100).toFixed(2)}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
+    `;
+  }
 
-if (reserva50) {
-  const mitad = montoBase / 2;
-  html += `
-    <p class="texto-calculo"><strong>Reserva con:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
-    <p class="texto-calculo"><strong>Saldo:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
-  `;
-}
+  html += `<p class="texto-calculo"><strong>Recibís:</strong> <span class="monto-grande">$${formato(recibis)}</span></p>`;
 
-html += `</div>`;
+  if (reserva50) {
+    const mitad = montoBase / 2;
+    html += `  
+      <p class="texto-calculo"><strong>Reserva con:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
+      <p class="texto-calculo"><strong>Saldo:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
+    `;
+  }
+
+  html += `</div>`;
 
   document.getElementById("resultado").innerHTML = html;
   document.getElementById("resultado").style.display = "block";
 }
 
+function mostrarPopupReserva() {
+  const popup = document.getElementById("popup-reserva");
+  popup.style.display = "block"; // Se muestra de forma permanente
+}
 
-      function mostrarPopupReserva() {
-        const popup = document.getElementById("popup-reserva");
-        popup.style.display = "block";
-        setTimeout(() => {
-          popup.style.display = "none";
-        }, 6000);
-      }
 
       const adicionales = {
         0: 0, // cambiar cuando vence se recalcula
