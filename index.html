@@ -67,6 +67,12 @@
         padding: 10px;
         font-size: 16px;
       }
+      .promo-text {
+  line-height: 1.2; /* Reducido, valor ajustable */
+  margin: 2px 0;    /* Opcional: para disminuir separación extra */
+  font-size: 14px;  /* Opcional: si quieres reducir tamaño de fuente */
+}
+
       button {
         width: 100%;
         padding: 12px;
@@ -463,20 +469,21 @@ function mostrarPopupReserva() {
         promociones.forEach((promo) => {
           const li = document.createElement("li");
 
-          const descHTML = promo.descripcion
-            .map((line, index) => {
-              if (index === 0) {
-                return `<p><strong>${line.toUpperCase()}</strong></p>`;
-              }
-              return `<p>${line}</p>`;
-            })
-            .join("");
+       const descHTML = promo.descripcion
+  .map((line, index) => {
+    if (index === 0) {
+      return `<p class="promo-text"><strong>${line.toUpperCase()}</strong></p>`;
+    }
+    return `<p class="promo-text">${line}</p>`;
+  })
+  .join("");
 
-          const aplicableAHTML = promo.aplicableA
-            ? promo.aplicableA
-                .map((item) => `<p><small>${item}</small></p>`)
-                .join("")
-            : "";
+const aplicableAHTML = promo.aplicableA
+  ? promo.aplicableA
+      .map((item) => `<p class="promo-text"><small>${item}</small></p>`)
+      .join("")
+  : "";
+
 
           li.innerHTML = `
       ${descHTML}
