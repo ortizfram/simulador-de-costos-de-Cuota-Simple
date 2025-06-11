@@ -345,12 +345,12 @@ function mostrarPopupReserva() {
 }
 
 
-      const adicionales = {
-        0: 0, // cambiar cuando vence se recalcula
-        1: 0.0218, // cambiar cuando vence se recalcula
-        3: 0.12, // cambiar cuando vence se recalcula
-        6: 0.18, // cambiar cuando vence se recalcula
-      };
+const adicionales = {
+  0: 0,
+  1: 0.0218,
+  3: 0.0874,
+  6: 0.1598,
+};
 
       document.getElementById("plan").addEventListener("change", () => {
         toggleReservaBox();
