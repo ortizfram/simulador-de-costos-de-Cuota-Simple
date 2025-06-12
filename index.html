@@ -324,17 +324,19 @@
     let adicional = 0;
     let recibis = montoInput;
 
+  
     if (metodo === "cuotas" && cuotas > 0) {
       adicional = adicionales[cuotas];
       const totalSinAdicional = montoBase + desayunoTotal;
       adicionalAplicado = totalSinAdicional * adicional;
       total = totalSinAdicional + adicionalAplicado;
       valorCuota = total / cuotas;
-      recibis = montoInput;
+      recibis = total - adicionalAplicado; // CORREGIDO
     } else {
       total = montoBase + desayunoTotal;
       recibis = total;
     }
+
 
     let html = `<div class="resultado-box">`;
 
@@ -354,6 +356,8 @@
       `;
     }
 
+    html += `<p class="texto-calculo"><strong>Desayunos (${cantidadAdultos} adultos):</strong> <span class="monto-grande">$${formato(desayunoTotal)}</span></p>`;
+
     html += `<p class="texto-calculo"><strong>Recibís:</strong> <span class="monto-grande">$${formato(recibis)}</span></p>`;
 
     if (reserva50) {
@@ -363,8 +367,6 @@
         <p class="texto-calculo"><strong>Saldo:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
       `;
     }
-
-    html += `<p class="texto-calculo"><strong>Desayunos (${cantidadAdultos} adultos):</strong> <span class="monto-grande">$${formato(desayunoTotal)}</span></p>`;
 
     html += `</div>`;
 
