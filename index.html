@@ -7,7 +7,7 @@
 
 
     <style>
-      body {
+      /* body {
         font-family: "Arial", sans-serif;
         background: #f5f5f5;
         display: flex;
@@ -15,14 +15,34 @@
         padding: 20px;
         height: 80vh;
         overflow-y: auto;
+      } */
+       body {
+        font-family: "Arial", sans-serif;
+        background: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: start;
+        padding: 10px;
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
       }
-      .simulador {
+      /* .simulador {
         background: white;
         padding: 30px;
         border-radius: 10px;
         max-width: 500px;
         width: 100%;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      } */
+       .simulador {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 450px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
       }
       .simulador h2 {
         text-align: center;
@@ -236,7 +256,7 @@
             rel="noopener noreferrer"
           >
             MOTOR </a
-          >. Luego pasa el monto final aquí.<br />
+          >. Luego pasa el monto final IVA TERMINADO aquí.<br />
           Cuota Simple no es válida para
           <a href="#otras-promos" onclick="openModal()" class="boton-inline">otras promociones</a>
           de transferencia anticipada.
@@ -416,7 +436,7 @@
       const promociones = [
         {
   descripcion: [
-    "☃️ WINTER SALE | incluye desayuno ☕",
+    "☃️ WINTER SALE | incluye desayuno ☕ | precios solo en departamento estándar interior y familiar interior, agregar 20.000 por día en frontales y 25.000 con balcón",
     "💵 Transferencia Anticipada (precio por día):",
     "🔹 2 adultos - $98.000 + (2 niños sin cargo -12años)",
     "🔹 3 adultos - $116.000 (sin niños)",
