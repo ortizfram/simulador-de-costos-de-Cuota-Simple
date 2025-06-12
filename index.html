@@ -290,85 +290,120 @@
 
     
 <script>
-function calcular() {
-  const montoInput = parseFloat(document.getElementById("monto").value);
-  const cuotas = parseInt(document.getElementById("plan").value);
-  const metodo = cuotas === 0 ? "transferencia" : "cuotas";
-  const reserva50 = document.getElementById("reserva50").checked;
-  const cantidadAdultos = parseInt(document.getElementById("adultos").value);
-  const precioDesayuno = 2000;
+  function calcular() {
+    const montoInput = parseFloat(document.getElementById("monto").value);
+    const cantidadAdultos = parseInt(document.getElementById("adultos").value);
+    const precioDesayuno = 2000;
+    const cuotas = parseInt(document.getElementById("plan").value);
+    const metodo = cuotas === 0 ? "transferencia" : "cuotas";
+    const reserva50 = document.getElementById("reserva50").checked;
 
-  if (isNaN(montoInput) || montoInput <= 0) {
-    alert("Por favor, ingrese un monto válido.");
-    return;
+    if (isNaN(montoInput) || montoInput <= 0) {
+      alert("Por favor, ingrese un monto válido.");
+      return;
+    }
+
+    if (isNaN(cantidadAdultos) || cantidadAdultos < 1 || cantidadAdultos > 6) {
+      alert("Ingrese una cantidad de adultos entre 1 y 6.");
+      return;
+    }
+
+    const desayunoTotal = cantidadAdultos * precioDesayuno;
+
+    const formato = (n) =>
+      n.toLocaleString("es-AR", { minimumFractionDigits: 2 });
+
+    let montoBase = montoInput;
+    if (reserva50) {
+      montoBase *= 1.35;
+    }
+
+    let total = montoBase + desayunoTotal;
+    let valorCuota = 0;
+    let adicionalAplicado = 0;
+    let adicional = 0;
+    let recibis = montoInput;
+
+    if (metodo === "cuotas" && cuotas > 0) {
+      adicional = adicionales[cuotas];
+      const totalSinAdicional = montoBase + desayunoTotal;
+      adicionalAplicado = totalSinAdicional * adicional;
+      total = totalSinAdicional + adicionalAplicado;
+      valorCuota = total / cuotas;
+      recibis = montoInput;
+    } else {
+      total = montoBase + desayunoTotal;
+      recibis = total;
+    }
+
+    let html = `<div class="resultado-box">`;
+
+    // Agregar texto en rojo si aplica reserva al 50%
+    if (reserva50) {
+      html += `<p class="texto-calculo" style="color: red; font-weight: bold;">
+                 Recuerda que el 50% restante se abona a dólar oficial venta hasta 2 días antes mediante transferencia o de contado efectivo al checkin.
+               </p>`;
+    }
+
+    html += `<p class="texto-calculo"><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>`;
+
+    if (metodo === "cuotas" && cuotas > 0) {
+      html += `  
+        <p class="texto-calculo"><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(valorCuota)}</span></p>
+        <p class="texto-calculo"><strong>Adicional:</strong> (${(adicional * 100).toFixed(2)}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
+      `;
+    }
+
+    html += `<p class="texto-calculo"><strong>Recibís:</strong> <span class="monto-grande">$${formato(recibis)}</span></p>`;
+
+    if (reserva50) {
+      const mitad = montoBase / 2;
+      html += `  
+        <p class="texto-calculo"><strong>Reserva con:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
+        <p class="texto-calculo"><strong>Saldo:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
+      `;
+    }
+
+    html += `<p class="texto-calculo"><strong>Desayunos (${cantidadAdultos} adultos):</strong> <span class="monto-grande">$${formato(desayunoTotal)}</span></p>`;
+
+    html += `</div>`;
+
+    document.getElementById("resultado").innerHTML = html;
+    document.getElementById("resultado").style.display = "block";
   }
 
-  if (isNaN(cantidadAdultos) || cantidadAdultos < 1 || cantidadAdultos > 6) {
-    alert("Ingrese una cantidad de adultos entre 1 y 6.");
-    return;
+  function mostrarPopupReserva() {
+    const popup = document.getElementById("popup-reserva");
+    popup.style.display = "block";
   }
 
-  const desayunoTotal = cantidadAdultos * precioDesayuno;
+  const adicionales = {
+    0: 0,
+    1: 0.0218,
+    3: 0.1328,
+    6: 0.2052
+  };
 
-  const formato = (n) =>
-    n.toLocaleString("es-AR", { minimumFractionDigits: 2 });
+  document.getElementById("plan").addEventListener("change", () => {
+    toggleReservaBox();
+    calcular();
+  });
 
-  let montoBase = montoInput + desayunoTotal; // Desayuno incluido antes de cálculos
+  function toggleReservaBox() {
+    const plan = document.getElementById("plan").value;
+    const reservaBox = document.getElementById("reserva-box");
 
-  if (reserva50) {
-    montoBase *= 1.35;
+    if (plan === "0") {
+      reservaBox.style.display = "block";
+    } else {
+      reservaBox.style.display = "none";
+      document.getElementById("reserva50").checked = false;
+    }
   }
 
-  let total = montoBase;
-  let valorCuota = 0;
-  let adicionalAplicado = 0;
-  let adicional = 0;
-  let recibis = montoInput;
-
-  if (metodo === "cuotas" && cuotas > 0) {
-    adicional = adicionales[cuotas];
-    total = montoBase * (1 + adicional);
-    valorCuota = total / cuotas;
-    adicionalAplicado = montoBase * adicional;
-    recibis = montoInput;
-  } else {
-    total = montoBase;
-    recibis = total;
-  }
-
-  let html = `<div class="resultado-box">`;
-
-  if (reserva50) {
-    html += `<p class="texto-calculo" style="color: red; font-weight: bold;">
-               Recuerda que el 50% restante se abona a dólar oficial venta hasta 2 días antes mediante transferencia o de contado efectivo al checkin.
-             </p>`;
-  }
-
-  html += `<p class="texto-calculo"><strong>Desayunos (${cantidadAdultos} adultos):</strong> <span class="monto-grande">$${formato(desayunoTotal)}</span></p>`;
-  html += `<p class="texto-calculo"><strong>Total a pagar:</strong> <span class="monto-grande">$${formato(total)}</span></p>`;
-
-  if (metodo === "cuotas" && cuotas > 0) {
-    html += `  
-      <p class="texto-calculo"><strong>Valor por cuota (${cuotas} cuotas):</strong> <span class="monto-grande">$${formato(valorCuota)}</span></p>
-      <p class="texto-calculo"><strong>Adicional:</strong> (${(adicional * 100).toFixed(2)}%) <span class="monto-grande">$${formato(adicionalAplicado)}</span></p>
-    `;
-  }
-
-  html += `<p class="texto-calculo"><strong>Recibís:</strong> <span class="monto-grande">$${formato(recibis)}</span></p>`;
-
-  if (reserva50) {
-    const mitad = montoBase / 2;
-    html += `  
-      <p class="texto-calculo"><strong>Reserva con:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
-      <p class="texto-calculo"><strong>Saldo:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
-    `;
-  }
-
-  html += `</div>`;
-
-  document.getElementById("resultado").innerHTML = html;
-  document.getElementById("resultado").style.display = "block";
-}
+  window.onload = function () {
+    toggleReservaBox();
+  };
 </script>
 
 
