@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Simulador Cuota Simple</title>
+    <title>Simulador Cuotas y Promociones</title>
     <link rel="icon" href="assets\favicon.png" type="image/png" />
 
 
@@ -208,7 +208,7 @@
     <div class="simulador">
       <h2>Simulador Cuota Simple</h2>
       <div class="vigencia">
-        Vigencia: del 05 de febrero de 2025 al 30 de junio de 2025.
+        Vigencia: hasta el 30 de junio de 2025.
       </div>
       <div class="fuente">
         Fuente oficial:
@@ -246,6 +246,12 @@
       </div>
 
       <div class="campo">
+        <label for="adultos">Cantidad de adultos (1-6):</label>
+        <input type="number" id="adultos" min="1" max="6" value="1" />
+      </div>
+
+
+      <div class="campo">
         <label for="plan">Plan de Cuotas</label>
         <select id="plan">
           <option value="0"">
@@ -256,15 +262,16 @@
             TasaTotal: ≈ 2,18%
           </option>
           <option value="3">
-  Cuota Simple 3 (coeficiente 1.0874 IVA terminado) + (1.8%+IVA por crédito) + (Tasa
-  Anticipo 1.95% + IVA) — Tasa Total: ≈ 13,28%
-</option>
-<option value="6">
-  Cuota Simple 6 (coeficiente 1.1598 IVA terminado) + (1.8%+IVA por crédito) + (Tasa
-  Anticipo 1.95% + IVA) — Tasa Total: ≈ 20,52%
-</option>
+            Cuota Simple 3 (coeficiente 1.0874 IVA terminado) + (1.8%+IVA por crédito) + (Tasa
+            Anticipo 1.95% + IVA) — Tasa Total: ≈ 13,28%
+          </option>
+          <option value="6">
+            Cuota Simple 6 (coeficiente 1.1598 IVA terminado) + (1.8%+IVA por crédito) + (Tasa
+            Anticipo 1.95% + IVA) — Tasa Total: ≈ 20,52%
+          </option>
         </select>
       </div>
+
 
       <div class="campo" id="reserva-box" style="display: none">
         <label>
@@ -285,6 +292,8 @@
 <script>
   function calcular() {
     const montoInput = parseFloat(document.getElementById("monto").value);
+    const cantidadAdultos = parseInt(document.getElementById("adultos").value);
+    const precioDesayuno = 2000;
     const cuotas = parseInt(document.getElementById("plan").value);
     const metodo = cuotas === 0 ? "transferencia" : "cuotas";
     const reserva50 = document.getElementById("reserva50").checked;
@@ -293,6 +302,13 @@
       alert("Por favor, ingrese un monto válido.");
       return;
     }
+
+    if (isNaN(cantidadAdultos) || cantidadAdultos < 1 || cantidadAdultos > 6) {
+      alert("Ingrese una cantidad de adultos entre 1 y 6.");
+      return;
+    }
+
+    const desayunoTotal = cantidadAdultos * precioDesayuno;
 
     const formato = (n) =>
       n.toLocaleString("es-AR", { minimumFractionDigits: 2 });
@@ -303,6 +319,7 @@
     }
 
     let total = montoBase;
+    total += desayunoTotal;
     let valorCuota = 0;
     let adicionalAplicado = 0;
     let adicional = 0;
@@ -337,6 +354,7 @@
       `;
     }
 
+    
     html += `<p class="texto-calculo"><strong>Recibís:</strong> <span class="monto-grande">$${formato(recibis)}</span></p>`;
 
     if (reserva50) {
@@ -346,7 +364,9 @@
         <p class="texto-calculo"><strong>Saldo:</strong> <span class="monto-grande">$${formato(mitad)}</span></p>
       `;
     }
+    html += `<p class="texto-calculo"><strong>Desayunos (${cantidadAdultos} adultos):</strong> <span class="monto-grande">$${formato(desayunoTotal)}</span></p>`;
 
+    
     html += `</div>`;
 
     document.getElementById("resultado").innerHTML = html;
@@ -408,42 +428,42 @@ const adicionales = {
   //   "✅ Feriados: 1→4 mayo | 14→16 junio | 20→22 junio",
   // ],
 },
-{
-  descripcion: [
-    "💳CUOTA SIMPLE 6️ | incluye desayuno ☕",
-    "💳 6 cuotas (precio por día):",
-    "🔹 2 adultos - 6x $20,351= $122,109.6",
-    "🔹 3 adultos - 6x $24,300 = $145,803.2",
-    "🔹 4 adultos - 6x $27,044 = $162,265.6",
-    "🔹 5 adultos - 6x $29,788 = $178,728",
-    "🔹 6 adultos - 6x $32,531 = $195,190.4",
+// {
+//   descripcion: [
+//     "💳CUOTA SIMPLE 6️ | incluye desayuno ☕",
+//     "💳 6 cuotas (precio por día):",
+//     "🔹 2 adultos - 6x $20,351= $122,109.6",
+//     "🔹 3 adultos - 6x $24,300 = $145,803.2",
+//     "🔹 4 adultos - 6x $27,044 = $162,265.6",
+//     "🔹 5 adultos - 6x $29,788 = $178,728",
+//     "🔹 6 adultos - 6x $32,531 = $195,190.4",
 
-  ],
-  // vigencia: "Válido 2025",
-  // aplicableA: [
-  //   "APLICA A TODO EL AÑO",
-  //   "📆 Meses: Julio y Findes Largos",
-  //   "✅ Feriados: 1→4 mayo | 14→16 junio | 20→22 junio",
-  // ],
-},
-{
-  descripcion: [
-    "💳 CUOTA SIMPLE 3️ | incluye desayuno ☕",
-    "💳 3 cuotas (precio por día):",
-    "🔹 2 adultos - 3x $38,338 = $ 115,014.4",
-    "🔹 3 adultos - 3x $45,801 = $137,404.8",
-    "🔹 4 adultos - 3x $50,999 = $152,998.4",
-    "🔹 5 adultos - 3x $56,197 = $168,592",
-    "🔹 6 adultos - 3x $61,395 = $184,185.6"
+//   ],
+//   // vigencia: "Válido 2025",
+//   // aplicableA: [
+//   //   "APLICA A TODO EL AÑO",
+//   //   "📆 Meses: Julio y Findes Largos",
+//   //   "✅ Feriados: 1→4 mayo | 14→16 junio | 20→22 junio",
+//   // ],
+// },
+// {
+//   descripcion: [
+//     "💳 CUOTA SIMPLE 3️ | incluye desayuno ☕",
+//     "💳 3 cuotas (precio por día):",
+//     "🔹 2 adultos - 3x $38,338 = $ 115,014.4",
+//     "🔹 3 adultos - 3x $45,801 = $137,404.8",
+//     "🔹 4 adultos - 3x $50,999 = $152,998.4",
+//     "🔹 5 adultos - 3x $56,197 = $168,592",
+//     "🔹 6 adultos - 3x $61,395 = $184,185.6"
 
-  ],
-  // vigencia: "Válido 2025",
-  // aplicableA: [
-  //   "APLICA A TODO EL AÑO",
-  //   "📆 Meses: Julio y Findes Largos",
-  //   "✅ Feriados: 1→4 mayo | 14→16 junio | 20→22 junio",
-  // ],
-}
+//   ],
+//   // vigencia: "Válido 2025",
+//   // aplicableA: [
+//   //   "APLICA A TODO EL AÑO",
+//   //   "📆 Meses: Julio y Findes Largos",
+//   //   "✅ Feriados: 1→4 mayo | 14→16 junio | 20→22 junio",
+//   // ],
+// }
 ,
         {
           descripcion: [
