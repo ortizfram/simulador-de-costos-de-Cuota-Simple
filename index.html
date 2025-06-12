@@ -68,10 +68,10 @@
         font-size: 16px;
       }
       .promo-text {
-  line-height: 1.2; /* Reducido, valor ajustable */
-  margin: 2px 0;    /* Opcional: para disminuir separación extra */
-  font-size: 14px;  /* Opcional: si quieres reducir tamaño de fuente */
-}
+        line-height: 1.2; /* Reducido, valor ajustable */
+        margin: 2px 0;    /* Opcional: para disminuir separación extra */
+        font-size: 14px;  /* Opcional: si quieres reducir tamaño de fuente */
+      }
 
       button {
         width: 100%;
@@ -106,24 +106,24 @@
         background-color: rgba(0, 0, 0, 0.5);
         overflow-y: auto; /* importante: permite scroll si el contenido es más grande */
       }
-.resultado-box {
-  background: #eafaf1; /* un solo fondo */
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
-}
+      .resultado-box {
+        background: #eafaf1; /* un solo fondo */
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 15px;
+      }
 
-.texto-calculo {
-  font-family: 'Arial', sans-serif;
-  font-size: 16px;
-  color: #222;
-  margin-bottom: 8px;
-}
+      .texto-calculo {
+        font-family: 'Arial', sans-serif;
+        font-size: 16px;
+        color: #222;
+        margin-bottom: 8px;
+      }
 
-.monto-grande {
-  font-weight: bold;
-  font-size: 18px;
-}
+      .monto-grande {
+        font-weight: bold;
+        font-size: 18px;
+      }
 
 
 
@@ -175,6 +175,17 @@
         margin-right: 8px;
         vertical-align: middle;
       }
+      .boton-inline {
+        background-color: #007bff;
+        color: white !important;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 13px;
+      }
+
     </style>
   </head>
   <body>
@@ -225,7 +236,7 @@
             MOTOR </a
           >. Luego pasa el monto final aquí.<br />
           Cuota Simple no es válida para
-          <a href="#otras-promos" onclick="openModal()">otras promociones</a>
+          <a href="#otras-promos" onclick="openModal()" class="boton-inline">otras promociones</a>
           de transferencia anticipada.
         </div>
         <label for="monto">Monto de la compra ($)</label>
@@ -399,11 +410,12 @@ const adicionales = {
   descripcion: [
     "💳CUOTA SIMPLE 6️ | incluye desayuno ☕",
     "💳 6 cuotas (precio por día):",
-    "🔹 2 adultos - 6x $14.849 = $93.220",
-    "🔹 3 adultos - 6x $18.880 = $113.280",
-    "🔹 4 adultos - 6x $22.617 = $135.700",
-    "🔹 5 adultos - 6x $25.764 = $154.580",
-    "🔹 6 adultos - 6x $29.107 = $174.640",
+    "🔹 2 adultos - 6x $20,351= $122,109.6",
+    "🔹 3 adultos - 6x $24,300 = $145,803.2",
+    "🔹 4 adultos - 6x $27,044 = $162,265.6",
+    "🔹 5 adultos - 6x $29,788 = $178,728",
+    "🔹 6 adultos - 6x $32,531 = $195,190.4",
+
   ],
   // vigencia: "Válido 2025",
   // aplicableA: [
@@ -416,11 +428,12 @@ const adicionales = {
   descripcion: [
     "💳 CUOTA SIMPLE 3️ | incluye desayuno ☕",
     "💳 3 cuotas (precio por día):",
-    "🔹 2 adultos - 3x $28.187 = $88.480",
-    "🔹 3 adultos - 3x $35.840 = $107.520",
-    "🔹 4 adultos - 3x $42.934 = $128.800",
-    "🔹 5 adultos - 3x $48.907 = $146.720",
-    "🔹 6 adultos - 3x $55.254 = $165.760",
+    "🔹 2 adultos - 3x $38,338 = $ 115,014.4",
+    "🔹 3 adultos - 3x $45,801 = $137,404.8",
+    "🔹 4 adultos - 3x $50,999 = $152,998.4",
+    "🔹 5 adultos - 3x $56,197 = $168,592",
+    "🔹 6 adultos - 3x $61,395 = $184,185.6"
+
   ],
   // vigencia: "Válido 2025",
   // aplicableA: [
