@@ -327,12 +327,14 @@
   
     if (metodo === "cuotas" && cuotas > 0) {
       adicional = adicionales[cuotas];
-      const totalSinAdicional = montoBase + desayunoTotal;
-      adicionalAplicado = totalSinAdicional * adicional;
-      total = totalSinAdicional + adicionalAplicado;
+
+      const montoFinanciado = montoBase * (1 + adicional); // ✅ aplicar interés solo sobre monto base
+      total = montoFinanciado + desayunoTotal;             // ✅ sumar desayuno sin intereses
+      adicionalAplicado = montoFinanciado - montoBase;
       valorCuota = total / cuotas;
-      recibis = total - adicionalAplicado; // CORREGIDO
-    } else {
+      recibis = montoBase; // Lo que se recibe sin contar intereses
+    }
+    else {
       total = montoBase + desayunoTotal;
       recibis = total;
     }
