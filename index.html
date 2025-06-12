@@ -345,13 +345,13 @@
     popup.style.display = "block"; // Se muestra de forma permanente
   }
 
-  // Coeficientes actualizados con IVA terminado:
-  const adicionales = {
-    0: 0,          // Transferencia
-    1: 0.0218,    // 1 pago con costo 2.18% (1.8% + IVA)
-    3: 0.0874,    // Cuota Simple 3 (coeficiente 1.0874 - IVA terminado)
-    6: 0.1598     // Cuota Simple 6 (coeficiente 1.1598 - IVA terminado)
-  };
+  
+const adicionales = {
+  0: 0,          // Transferencia sin costo adicional
+  1: 0.0218,    // Crédito 1 Cuota — Tasa Total: 2.18%
+  3: 0.1328,    // Cuota Simple 3 — Tasa Total: 13.28%
+  6: 0.2052     // Cuota Simple 6 — Tasa Total: 20.52%
+};
 
   document.getElementById("plan").addEventListener("change", () => {
     toggleReservaBox();
